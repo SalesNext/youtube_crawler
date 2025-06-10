@@ -11,14 +11,13 @@ class YoutubeCrawler(ScrapyCrawler):
     def __init__(
         self,
         daily: bool = False,
-        search_query: str = "python programming",
+        search_query: str = 'vlog',
         seed_video_url: str = None,
     ):
         print("Hello World from YoutubeCrawler!")
         self.daily = daily
         self.search_query = search_query
-        # Hardcode seed video URL
-        self.seed_video_url = "https://www.youtube.com/watch?v=6tNS--WetLI"
+        self.seed_video_url = seed_video_url
         print(f"Using seed video URL: {self.seed_video_url}")
 
     def start(self) -> Iterable[Event]:
@@ -30,21 +29,18 @@ class YoutubeCrawler(ScrapyCrawler):
             crawled_channel_ids = set(channel_table.select(["channel_id"]).drop_null().to_pydict()["channel_id"])
 
         # If we have a seed video URL, start with getting recommendations
-        if self.seed_video_url:
-            print(f"Starting crawl from seed video: {self.seed_video_url}")
-            yield CrawlEvent(
-                request=Request(
-                    self.seed_video_url,
-                    method="GET",
-                    headers={
-                        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
-                        "Accept-Language": "en-US,en;q=0.9",
-                    }
-                ),
-                metadata={'crawled_channel_ids': crawled_channel_ids},
-                callback=parse_channel_list_from_related_videos
-            )
-        elif self.search_query:
+        # if self.seed_video_url:
+        #     print(f"Starting crawl from seed video: {self.seed_video_url}")
+        #     yield CrawlEvent(
+        #         request=Request(
+        #             self.seed_video_url,
+        #             method="GET"
+        #         ),
+        #         metadata={'crawled_channel_ids': crawled_channel_ids},
+        #         callback=parse_channel_list_from_related_videos
+        #     )
+        if self.search_query:
+        # elif self.search_query:
             # Otherwise use search
             search_url = urljoin(
                 "https://www.youtube.com/results",
@@ -53,11 +49,7 @@ class YoutubeCrawler(ScrapyCrawler):
             yield CrawlEvent(
                 request=Request(
                     search_url,
-                    method="GET",
-                    headers={
-                        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
-                        "Accept-Language": "en-US,en;q=0.9",
-                    }
+                    method="GET"
                 ),
                 metadata={'crawled_channel_ids': crawled_channel_ids},
                 callback=parse_channel_list_from_search
