@@ -19,6 +19,16 @@ class Comment(TypedDict):
     parent_id: Optional[str] = None
     reply_count: Optional[int] = None
 
+class SubtitleInfo(TypedDict):
+    url: Optional[str] = None
+    ext: Optional[str] = None
+    name: Optional[str] = None
+    protocol: Optional[str] = None
+    data: Optional[str] = None
+    lang: Optional[str] = None
+    lang_code: Optional[str] = None
+    is_auto: Optional[bool] = None
+
 class Video(TypedDict):
     id: Optional[str] = None
     url: Optional[str] = None
@@ -42,6 +52,7 @@ class Video(TypedDict):
     live_status: Optional[str] = None
     channel_is_verified: Optional[bool] = None
     comments: Optional[List[Comment]] = None
+    subtitles: Optional[List[SubtitleInfo]] = None
 
 class ChannelDetail(TypedDict):
     id: Optional[str] = None

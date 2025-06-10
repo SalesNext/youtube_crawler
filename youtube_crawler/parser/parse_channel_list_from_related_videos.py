@@ -11,8 +11,6 @@ from youtube_crawler.parser.parse_channel_detail import parse_channel_detail
 
 def get_yt_initial_data(url: str) -> dict:
     headers = {
-        'User-Agent': 'Mozilla/5.0',
-        'Accept-Language': 'en-US,en;q=0.9'
     }
     try:
         response = requests.get(url, headers=headers, timeout=10)

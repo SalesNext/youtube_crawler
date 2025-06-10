@@ -11,8 +11,6 @@ from youtube_crawler.parser.parse_channel_detail import parse_channel_detail
 
 def get_yt_initial_data(url: str) -> dict:
     headers = {
-        'User-Agent': 'Mozilla/5.0',
-        'Accept-Language': 'en-US,en;q=0.9'
     }
 
     try:
@@ -142,7 +140,11 @@ def parse_channel_list_from_search(
             token = next_token
 
     # Call parse_channel_detail for each channel URL
+    channel_count = 0
     for channel_url in all_channels:
+        if channel_count >= 5:  # Stop after 5 channels
+            break
+            
         channel_id = channel_url.split('/')[-1]
         if channel_id in crawled_channel_ids:
             logging.info(f"Skipping already crawled channel: {channel_url}")
@@ -152,12 +154,9 @@ def parse_channel_list_from_search(
         yield CrawlEvent(
             request=Request(
                 channel_url,
-                method="GET",
-                headers={
-                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
-                    "Accept-Language": "en-US,en;q=0.9",
-                }
+                method="GET"
             ),
             metadata=event.metadata,
             callback=parse_channel_detail
-        ) 
+        )
+        channel_count += 1 
