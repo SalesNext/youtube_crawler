@@ -1,75 +1,10 @@
-from typing import TypedDict, Dict, Any, Optional, List, Iterable
+from typing import Dict, Any, Optional, List, Iterable
 import yt_dlp
 import json
 from salesnext_crawler.events import CrawlEvent, DataEvent, Event
 import logging
 from scrapy.http.response.html import HtmlResponse
-
-class Thumbnail(TypedDict):
-    url: str
-    height: int
-    width: int
-    id: Optional[str]
-    resolution: Optional[str]
-    preference: Optional[int]
-
-class Comment(TypedDict):
-    id: str
-    text: str
-    author: str
-    author_id: str
-    author_url: str
-    like_count: int
-    timestamp: int
-    parent_id: Optional[str]
-    reply_count: int
-
-class Video(TypedDict):
-    id: str
-    url: str
-    title: str
-    description: str
-    duration: float
-    view_count: int
-    thumbnails: List[Thumbnail]
-    channel_id: str
-    channel_url: str
-    channel: str
-    uploader: str
-    uploader_id: str
-    uploader_url: str
-    webpage_url: str
-    extractor: str
-    extractor_key: str
-    timestamp: Optional[int]
-    release_timestamp: Optional[int]
-    availability: Optional[str]
-    live_status: Optional[str]
-    channel_is_verified: Optional[bool]
-    comments: List[Comment]
-
-class ChannelDetail(TypedDict):
-    id: str
-    channel: str
-    channel_id: str
-    title: str
-    channel_follower_count: Optional[int]
-    description: str
-    tags: List[str]
-    thumbnails: List[Thumbnail]
-    uploader_id: str
-    uploader_url: str
-    uploader: str
-    channel_url: str
-    playlist_count: int
-    webpage_url: str
-    extractor: str
-    extractor_key: str
-    modified_date: Optional[str]
-    view_count: Optional[int]
-    availability: Optional[str]
-    release_year: Optional[int]
-    epoch: Optional[int]
+from youtube_crawler.schema.v1.youtube import Thumbnail, Comment, Video, ChannelDetail
 
 def parse_channel_detail(
     event: CrawlEvent[None, Event, HtmlResponse],
