@@ -137,6 +137,8 @@ def parse_channel_detail(
                         description=entry.get('description', ''),
                         duration=entry.get('duration', 0),
                         view_count=entry.get('view_count', 0),
+                        like_count=video_info.get('like_count', 0) if 'video_info' in locals() else 0,
+                        upload_date=video_info.get('upload_date') if 'video_info' in locals() else None,
                         thumbnails=entry.get('thumbnails', []),
                         channel_id=channel_info.get('channel_id'),
                         channel_url=channel_info.get('channel_url'),

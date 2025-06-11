@@ -102,8 +102,6 @@ def extract_channels_from_related_response(data: dict) -> Set[str]:
 def fetch_channels_with_token(continuation_token: str):
     url = 'https://www.youtube.com/youtubei/v1/next?prettyPrint=false'
     headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36',
-        'Accept-Language': 'en-US,en;q=0.9',
     }
     data = {
         "context": {
@@ -156,8 +154,6 @@ def parse_channel_list_from_related_videos(
                     channel_url,
                     method="GET",
                     headers={
-                        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
-                        "Accept-Language": "en-US,en;q=0.9",
                     }
                 ),
                 metadata=event.metadata,

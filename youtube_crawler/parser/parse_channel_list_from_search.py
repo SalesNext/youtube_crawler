@@ -140,10 +140,7 @@ def parse_channel_list_from_search(
             token = next_token
 
     # Call parse_channel_detail for each channel URL
-    channel_count = 0
     for channel_url in all_channels:
-        if channel_count >= 5:  # Stop after 5 channels
-            break
             
         channel_id = channel_url.split('/')[-1]
         if channel_id in crawled_channel_ids:
@@ -159,4 +156,3 @@ def parse_channel_list_from_search(
             metadata=event.metadata,
             callback=parse_channel_detail
         )
-        channel_count += 1 

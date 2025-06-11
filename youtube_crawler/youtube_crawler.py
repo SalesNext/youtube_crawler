@@ -29,16 +29,16 @@ class YoutubeCrawler(ScrapyCrawler):
             crawled_channel_ids = set(channel_table.select(["channel_id"]).drop_null().to_pydict()["channel_id"])
 
         # If we have a seed video URL, start with getting recommendations
-        # if self.seed_video_url:
-        #     print(f"Starting crawl from seed video: {self.seed_video_url}")
-        #     yield CrawlEvent(
-        #         request=Request(
-        #             self.seed_video_url,
-        #             method="GET"
-        #         ),
-        #         metadata={'crawled_channel_ids': crawled_channel_ids},
-        #         callback=parse_channel_list_from_related_videos
-        #     )
+        if self.seed_video_url:
+            print(f"Starting crawl from seed video: {self.seed_video_url}")
+            yield CrawlEvent(
+                request=Request(
+                    self.seed_video_url,
+                    method="GET"
+                ),
+                metadata={'crawled_channel_ids': crawled_channel_ids},
+                callback=parse_channel_list_from_related_videos
+            )
         if self.search_query:
         # elif self.search_query:
             # Otherwise use search
