@@ -1,0 +1,59 @@
+[engine]
+type = "scrapy"
+
+[engine.settings]
+LOG_LEVEL = 'INFO'
+CONCURRENT_REQUESTS = 8
+PROXIES = [
+]
+
+USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36'
+
+[engine.settings.DOWNLOADER_MIDDLEWARES]
+'salesnext_crawler.engines.scrapy.middleware.RandomizedProxyMiddleware' = 740
+
+[engine.settings.DOWNLOAD_HANDLERS]
+http = 'salesnext_crawler.engines.scrapy.downloader.curl_impersonate.CurlImpersonateDownloadHandler'
+https = 'salesnext_crawler.engines.scrapy.downloader.curl_impersonate.CurlImpersonateDownloadHandler'
+
+[filesystems]
+
+[filesystems.local]
+type = 'LocalFileSystem'
+
+[logger]
+type = 'pyarrow'
+format = 'json'
+filesystem = 'local'
+path = 'data/{crawler_id}/logs/{chunk}.json'
+chunk_size = 1000
+
+# List of storages
+[storages]
+
+[storages.channel]
+type = 'pyarrow'
+format = 'parquet'
+filesystem = 'local'
+path = 'data/{crawler_id}/youtube_channel/{chunk}.parquet'
+chunk_size = 1000
+
+[storages.video]
+type = 'pyarrow'
+format = 'parquet'
+filesystem = 'local'
+path = 'data/{crawler_id}/youtube_video/{chunk}.parquet'
+chunk_size = 1000
+
+[readers]
+
+[readers.last_youtube_channel]
+type = 'pyarrow'
+format = 'parquet'
+filesystem = 'local'
+path = 'data/{crawler_id}/youtube_channel/*.parquet'
+
+[crawler]
+classname = 'youtube_crawler.youtube_crawler.YoutubeCrawler'
+search_query = "octiiu957"
+seed_video_url = "https://www.youtube.com/watch?v=6tNS--WetLI" 
